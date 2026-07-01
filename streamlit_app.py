@@ -137,7 +137,7 @@ def inject_student_page_styles():
             white-space: normal;
         }
         .peer-current-task {
-            margin-top: 6px;
+            margin-top: 4px;
             color: #2f3340;
             font-size: 19px;
             font-weight: 800;
@@ -151,29 +151,52 @@ def inject_student_page_styles():
             line-height: 1;
             letter-spacing: 0;
         }
+        .peer-card {
+            border: 1px solid #d8dce3;
+            border-radius: 8px;
+            padding: 10px 14px;
+            background: #ffffff;
+        }
+        .peer-card-label {
+            color: #8b909b;
+            font-size: 0.78rem;
+            line-height: 1.1;
+        }
+        .peer-progress-row {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 12px;
+            color: #2f3340;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+        .peer-progress-track {
+            height: 7px;
+            border-radius: 999px;
+            background: #edf1f6;
+            overflow: hidden;
+            margin: 8px 0 4px 0;
+        }
+        .peer-progress-fill {
+            height: 100%;
+            border-radius: inherit;
+            background: #2b7de9;
+        }
         .st-key-peer_monitor_fixed,
         .st-key-peer-monitor-fixed {
             position: fixed;
-            top: 28px;
+            top: 84px;
             right: 24px;
-            width: clamp(360px, 27vw, 430px);
-            max-height: calc(100vh - 36px);
+            width: clamp(380px, 30vw, 460px);
+            max-height: calc(100vh - 96px);
             overflow-y: auto;
             padding-bottom: 4px;
             z-index: 20;
             background: #ffffff;
         }
         .st-key-peer_monitor_fixed [data-testid="stVerticalBlock"] {
-            gap: 0.34rem;
-        }
-        .st-key-peer_monitor_fixed [data-testid="stVerticalBlockBorderWrapper"] {
-            padding: 0.58rem 0.72rem;
-        }
-        .st-key-peer_monitor_fixed [data-testid="stVerticalBlockBorderWrapper"]:has(.peer-current-task) {
-            min-height: 74px;
-        }
-        .st-key-peer_monitor_fixed [data-testid="stVerticalBlockBorderWrapper"]:has(.peer-timer-text) {
-            min-height: 78px;
+            gap: 0.3rem;
         }
         .st-key-peer_monitor_fixed [data-testid="stCaptionContainer"] {
             font-size: 0.75rem;
@@ -483,16 +506,26 @@ def render_timer_panel(state):
     completed = min(int(timer.get("completed_tasks", 0)), len(plan))
     progress = completed / len(plan) if plan else 0
 
-    with st.container(border=True):
-        st.caption("当前任务")
-        st.markdown(f"<div class='peer-current-task'>当前任务：{current_task}</div>", unsafe_allow_html=True)
+    st.markdown(
+        (
+            "<div class='peer-card'>"
+            "<div class='peer-card-label'>当前任务</div>"
+            f"<div class='peer-current-task'>当前任务：{current_task}</div>"
+            "</div>"
+        ),
+        unsafe_allow_html=True,
+    )
 
-    with st.container(border=True):
-        st.caption("当前任务剩余时间" if estimated_plan else "剩余时间")
-        st.markdown(
-            f"<div class='peer-timer-text'>{format_seconds(remaining)}</div>",
-            unsafe_allow_html=True,
-        )
+    timer_label = "当前任务剩余时间" if estimated_plan else "剩余时间"
+    st.markdown(
+        (
+            "<div class='peer-card'>"
+            f"<div class='peer-card-label'>{timer_label}</div>"
+            f"<div class='peer-timer-text'>{format_seconds(remaining)}</div>"
+            "</div>"
+        ),
+        unsafe_allow_html=True,
+    )
 
     plan = update_manual_plan(state, plan)
     total_minutes = sum(task["minutes"] for task in plan)
@@ -501,10 +534,19 @@ def render_timer_panel(state):
     else:
         st.warning(f"当前总计 {total_minutes} 分钟，建议调整为 20 分钟。")
 
-    progress_cols = st.columns([2, 1])
-    progress_cols[0].markdown("任务完成率")
-    progress_cols[1].markdown(f"**{int(progress * 100)}%**")
-    st.progress(progress)
+    progress_percent = int(progress * 100)
+    st.markdown(
+        (
+            "<div class='peer-progress-row'>"
+            "<span>任务完成率</span>"
+            f"<span>{progress_percent}%</span>"
+            "</div>"
+            "<div class='peer-progress-track'>"
+            f"<div class='peer-progress-fill' style='width:{progress_percent}%'></div>"
+            "</div>"
+        ),
+        unsafe_allow_html=True,
+    )
 
     button_cols = st.columns(2)
     if timer.get("running"):
@@ -800,7 +842,7 @@ def render_student_page():
     if not os.getenv("DEEPSEEK_API_KEY"):
         st.warning("尚未配置 DeepSeek API Key。部署到 Streamlit 后，请在 App Secrets 中设置 DEEPSEEK_API_KEY。")
 
-    chat_col, monitor_col = st.columns([2.45, 1.25], gap="large")
+    chat_col, monitor_col = st.columns([2.2, 1.45], gap="large")
 
     prompt = st.chat_input("输入你的编程学习问题")
     if prompt:
