@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>教师端 - 编程自主学习伙伴</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>编程自主学习伙伴</h1>
+    <nav><a href="/teacher/logout">退出</a></nav>
+  </header>
+  <main class="teacher-grid">
+    <section>
+      <h2>知识库上传</h2>
+      {{UPLOAD_STATUS}}
+      <form class="upload-box" action="/teacher/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".pdf,.ppt,.pptx,.doc,.docx,.txt,.md" required>
+        <button type="submit">上传资料</button>
+      </form>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>文件名</th><th>类型</th><th>上传时间</th><th class="action-col">操作</th></tr></thead>
+          <tbody>
+            {{FILE_ROWS}}
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <section>
+      <h2>学生交互数据</h2>
+      <div class="download-actions">
+        <a class="primary-link small" href="/teacher/download/csv">下载 CSV</a>
+        <a class="secondary-link small" href="/teacher/download/json">下载 JSON</a>
+        <form action="/teacher/clear-data" method="post" onsubmit="return confirm('确定要清除全部学生交互数据、知识库记录和已上传文件吗？此操作不可撤销。');">
+          <button class="danger small" type="submit">清除数据</button>
+        </form>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>时间</th><th>学生</th><th>智能体</th><th>阶段</th><th>学生输入</th></tr></thead>
+          <tbody>
+            {{INTERACTION_ROWS}}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

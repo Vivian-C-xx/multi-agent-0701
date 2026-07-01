@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>学生端 - 编程自主学习伙伴</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>编程自主学习伙伴</h1>
+    <nav><a href="/">入口</a></nav>
+  </header>
+  <main class="student-layout">
+    <aside class="side-panel user-panel">
+      <div class="student-brand">
+        <div class="brand-mark">SL</div>
+        <div>
+          <h2>编程自主学习</h2>
+          <p>多智能体学习伙伴</p>
+        </div>
+      </div>
+      <label class="name-row">学生姓名 / ID
+        <input id="studentName" placeholder="例如：S001 或小林">
+      </label>
+      <section class="agent-status">
+        <h2>智能体状态</h2>
+        <button class="agent-chip manager active" data-agent="manager" type="button">管家：意图判断与分发</button>
+        <button class="agent-chip assistant" data-agent="assistant">助教：计划与评价</button>
+        <button class="agent-chip mentor" data-agent="mentor">导师：分析与调试</button>
+        <button class="agent-chip peer" data-agent="peer">同伴：监督与鼓励</button>
+      </section>
+      <section class="study-rules">
+        <h2>学习原则</h2>
+        <p>系统会提示、追问和鼓励，但不会直接替你完成任务。</p>
+      </section>
+    </aside>
+    <section class="chat-panel">
+      <div class="chat-heading">
+        <div>
+          <h2>聊天区</h2>
+          <p>当前智能体：<span id="activeAgentName">编程自主学习管家</span></p>
+        </div>
+        <a href="/teacher/login">教师端</a>
+      </div>
+      <div id="chatLog" class="chat-log">
+        <div class="message bot manager">
+          <strong>编程自主学习管家</strong>
+          <p>你好！你的所有输入会先由我判断学习意图，再分发给助教、导师或同伴。请告诉我今天想学习或练习的编程任务。</p>
+        </div>
+      </div>
+      <form id="chatForm" class="chat-form">
+        <textarea id="messageInput" rows="2" placeholder="输入你的学习问题、计划、自评或代码现象..." required></textarea>
+        <button type="submit">发送</button>
+      </form>
+    </section>
+    <aside class="side-panel monitor-panel">
+      <section class="timer-panel">
+        <h2>同伴智能体监督区</h2>
+        <div class="monitor-card">
+          <span>当前任务</span>
+          <strong id="timerTask" class="timer-task">等待学习计划</strong>
+        </div>
+        <div class="monitor-card">
+          <span>剩余时间</span>
+          <strong id="timerClock" class="timer-clock">20:00</strong>
+        </div>
+        <div class="time-inputs">
+          <label>分析<input type="number" min="1" max="20" value="5" data-task="分析问题"></label>
+          <label>算法<input type="number" min="1" max="20" value="5" data-task="设计算法"></label>
+          <label>编程<input type="number" min="1" max="20" value="7" data-task="编写程序"></label>
+          <label>优化<input type="number" min="1" max="20" value="3" data-task="代码优化"></label>
+        </div>
+        <p id="timePlanHint" class="peer-tip">四项任务时间总计需为20分钟。</p>
+        <div class="progress-wrap">
+          <div class="progress-label"><span>任务完成率</span><strong id="progressText">0%</strong></div>
+          <div class="progress-track"><span id="progressBar"></span></div>
+        </div>
+        <div class="timer-actions">
+          <button id="pauseTimer" disabled>暂停计时</button>
+          <button id="nextTask" class="secondary-action">进入下一任务</button>
+        </div>
+        <div class="monitor-stats">
+          <div><span>调试次数</span><strong id="debugCount">0</strong></div>
+        </div>
+        <p class="peer-tip">同伴会关注时间、调试次数和学习节奏，适时给你提醒。</p>
+      </section>
+    </aside>
+  </main>
+  <script src="/static/student.js"></script>
+</body>
+</html>

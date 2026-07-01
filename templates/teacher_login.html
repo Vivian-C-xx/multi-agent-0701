@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>教师登录 - 编程自主学习伙伴</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>编程自主学习伙伴</h1>
+  </header>
+  <main class="entry">
+    <form class="login-panel" method="post">
+      <h2>教师端登录</h2>
+      <p class="error">{{ERROR}}</p>
+      <label>账户
+        <input name="username" autocomplete="username" required>
+      </label>
+      <label>密码
+        <input name="password" type="password" autocomplete="current-password" required>
+      </label>
+      <button type="submit">登录</button>
+      <a href="/">返回统一入口</a>
+    </form>
+  </main>
+</body>
+</html>

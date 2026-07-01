@@ -1,0 +1,35 @@
+# Local secrets
+.env
+.streamlit/secrets.toml
+
+# Python runtime/cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE/editor files
+.idea/
+.vscode/
+
+# Local runtime data
+*.db
+data/*.db
+*.sqlite
+*.sqlite3
+uploads/
+uploaded_knowledge/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
+
+# Local agent/tool state
+.agents/
